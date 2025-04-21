@@ -13,7 +13,6 @@ interface ProcessTableProps {
 export default function ProcessTable({ processes, onDelete }: ProcessTableProps) {
     return (
         <>
-		
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -40,7 +39,7 @@ export default function ProcessTable({ processes, onDelete }: ProcessTableProps)
                     ) : (
                         <TableRow>
                             <TableCell colSpan={4} className="text-center">
-                                No processes available
+                                Nenhum processo adicionado. Adicione um processo para calcular o tempo de espera, tempo de resposta e tempo de retorno.
                             </TableCell>
                         </TableRow>
                     )}

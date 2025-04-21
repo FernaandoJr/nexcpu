@@ -1,23 +1,24 @@
-import {Process} from "./Process";
-
+import { Process } from "./Process"
 
 export default function calcSJF(Processos: Process[]): Process[] {
-	Processos.sort((a, b) => a.executionTime - b.executionTime);
+    // Ordena os processos pelo tempo de execução (executionTime) em ordem crescente
+    Processos.sort((a, b) => {
+        if (a.executionTime === b.executionTime) {
+            return a.startTime - b.startTime
+        }
+        return a.executionTime - b.executionTime
+    })
 
-	const totalProcesses = Processos.length;
+    // Calcula os tempos de espera, turnaround e resposta para cada processo
+    let accumulatedTime = 0
+    Processos.forEach((process) => {
+        process.turnaroundTime = accumulatedTime - process.startTime + process.executionTime
+        process.waitingTime = accumulatedTime - process.startTime
+        process.responseTime = accumulatedTime + process.executionTime - process.startTime
+        accumulatedTime += process.executionTime
+        console.log()
+    })
 
-	return Processos.map((process, index) => {
-		process.waitingTime = index === 0 ? 0 : Processos[index - 1].executionTime + Processos[index - 1].waitingTime;
-		process.turnaroundTime = process.waitingTime + process.executionTime;
-		process.responseTime = process.waitingTime;
-
-		if(index === Processos.length -1){
-			console.log("Average Waiting Time: ", Processos.reduce((accumulator, process) => accumulator + process.waitingTime, 0) / totalProcesses);
-			console.log("Average Turnaround Time: ", Processos.reduce((accumulator, process) => accumulator + process.turnaroundTime, 0) / totalProcesses);
-			console.log("Average Response Time: ", Processos.reduce((accumulator, process) => accumulator + process.responseTime, 0) / totalProcesses)
-			console.log("Order", process.order)
-			console.log(Processos)
-		}
-		return process;
-	})
+    // Retorna o array original com os processos atualizados
+    return Processos
 }
