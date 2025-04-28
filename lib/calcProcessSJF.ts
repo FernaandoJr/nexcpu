@@ -16,7 +16,6 @@ export default function calcSJF(Processos: Process[]): Process[] {
         process.waitingTime = accumulatedTime - process.startTime
         process.responseTime = accumulatedTime + process.executionTime - process.startTime
         accumulatedTime += process.executionTime
-        console.log()
     })
 
     // Retorna o array original com os processos atualizados
