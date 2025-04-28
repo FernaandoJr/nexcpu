@@ -13,6 +13,8 @@ import calcSJF from "@/lib/calcProcessSJF"
 import { CalculatorGraph } from "@/components/own/CalculatorGraph"
 import { Card } from "@/components/ui/card"
 import Sections from "@/components/own/Sections"
+import Image from "next/image"
+import Link from "next/link"
 
 export default function Home() {
     const mockedProcesses: Process[] = [
@@ -69,7 +71,7 @@ export default function Home() {
         {
             processId: uuidv4(),
             processName: "P6",
-            startTime: 8,
+            startTime: 0,
             executionTime: 10,
             waitingTime: 0,
             turnaroundTime: 0,
@@ -102,6 +104,10 @@ export default function Home() {
         setOrder(order + 1)
 
         setProcesses([...processes, newProcess])
+        const processNameInput = document.getElementById("processName") as HTMLInputElement
+        if (processNameInput) {
+            processNameInput.focus()
+        }
     }
 
     const handleProcessDelete = (currentProcess: Process) => {
@@ -117,12 +123,12 @@ export default function Home() {
             <Sections />
             <div className="flex justify-center">
                 <div className="container mt-4 flex flex-col items-center justify-center gap-4 px-4 md:flex-row">
-                    <div className="flex h-fit self-start rounded-xl border border-border p-4">
-                        <form onSubmit={handleCreateProcess}>
+                    <div className="flex h-fit w-full self-start rounded-xl border border-border p-4 sm:w-fit">
+                        <form onSubmit={handleCreateProcess} className="flex w-full flex-col">
                             <div className="w-full">
                                 <div className="flex flex-col gap-3">
                                     <Label>Nome do processo</Label>
-                                    <Input value={processName} placeholder="P10" required defaultChecked={false} type={"text"} onChange={(event) => setProcessName(event.target.value)} />
+                                    <Input value={processName} placeholder="P10" id="processName" required defaultChecked={false} type={"text"} onChange={(event) => setProcessName(event.target.value)} />
                                     <Label>Tempo de chegada</Label>
                                     <Input value={startTime} min={0} placeholder="Tempo de Chegada" required max={50} type={"number"} onChange={(event) => setStartTime(Number(event.target.value))} />
                                     <Label>Tempo de execução</Label>
@@ -145,11 +151,11 @@ export default function Home() {
                 </div>
             ) : (
                 <>
-                    <div className="m-4 flex-col items-center justify-center rounded-xl border border-border p-4">
+                    <div className="container m-4 mx-auto flex-col items-center justify-center rounded-xl border border-border p-4">
                         <h1 className="text-center text-2xl font-bold">Gráfico de Gantt</h1>
                         <CalculatorGraph processes={calculatedProcesses} />
                     </div>
-                    <Card className="m-4 flex-col items-center justify-center rounded-xl border border-border p-4 text-xl">
+                    <Card className="container m-4 mx-auto flex-col items-center justify-center rounded-xl border border-border p-4 text-xl">
                         <h1 className="text-center text-2xl font-bold">Tempo médio dos processos</h1>
                         <Separator className="my-4" />
                         <div className="flex flex-col gap-2">
@@ -158,7 +164,7 @@ export default function Home() {
                             <p>Tempo de processamento total: {calculatedProcesses.reduce((acc, process) => acc + process.executionTime, 0)}</p>
                         </div>
                     </Card>
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <div className="container mx-auto flex flex-wrap justify-center gap-4">
                         {calculatedProcesses.map((index) => {
                             return (
                                 <Card key={index.processId} className="m-4 flex-col items-center justify-center rounded-xl border border-border p-4">
@@ -172,6 +178,18 @@ export default function Home() {
                                 </Card>
                             )
                         })}
+                    </div>
+                    <div className="p-4">
+                        <h1 className="text-center text-2xl font-bold">
+                            Projeto desenvolvido por{" "}
+                            <Link href={"https://github.com/FernaandoJr"} className="border-b-2 border-transparent text-purple-700 hover:border-purple-800" target="_blank">
+                                FernaandoJr
+                            </Link>
+                        </h1>
+                    </div>
+                    <div className="container mx-auto mb-4 flex w-fit flex-col items-center justify-center gap-4 rounded-xl border border-border p-4">
+                        <h1 className="text-center text-2xl font-bold">QR Code do deploy</h1>
+                        <Image src="/qrcode.svg" alt="algorithms" width={500} height={500} className="rounded-xl border border-border" />
                     </div>
                 </>
             )}
