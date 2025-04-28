@@ -10,7 +10,7 @@ function Feature() {
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-col gap-2">
                                 <h2 className="font-regular max-w-xl text-left text-3xl tracking-tighter lg:text-5xl">NexCPU</h2>
-                                <p className="max-w-xl text-left text-lg leading-relaxed tracking-tight text-muted-foreground">Algoritmo de escalonamento SJF (Shortest Job First) para simulação de processos.</p>
+                                <p className="max-w-xl text-left text-lg leading-relaxed tracking-tight text-muted-foreground">Algoritmo de escalonamento SJF (Shortest Job First) não preemptivo para simulação de processos.</p>
                             </div>
                         </div>
                         <div className="text-md flex flex-col items-start gap-2 text-justify">
